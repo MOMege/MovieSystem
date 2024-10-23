@@ -12,6 +12,6 @@ namespace Domain.Entities
     {
         [Key]
         [Required]
-        public int id { get; set; }
+        public new  bool? IsAdmin { get; set; } = false;
     }
 }
