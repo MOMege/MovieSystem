@@ -24,26 +24,65 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
-                    b.Property<int>("CategoryID")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("CategoryName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ParentID")
                         .HasColumnType("int");
 
-                    b.HasKey("CategoryID");
+                    b.HasKey("ID");
 
                     b.HasIndex("ParentID");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            CategoryName = "Drama"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            CategoryName = "Action"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            CategoryName = "fighting",
+                            ParentID = 2
+                        },
+                        new
+                        {
+                            ID = 4,
+                            CategoryName = "Family",
+                            ParentID = 1
+                        },
+                        new
+                        {
+                            ID = 5,
+                            CategoryName = "Kids",
+                            ParentID = 4
+                        },
+                        new
+                        {
+                            ID = 6,
+                            CategoryName = "Cartoon",
+                            ParentID = 4
+                        },
+                        new
+                        {
+                            ID = 7,
+                            CategoryName = "History",
+                            ParentID = 1
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Commen.User", b =>
@@ -161,6 +200,33 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Permissions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "perm1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "perm2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "perm3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "perm4"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "perm5"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Review", b =>
@@ -214,6 +280,23 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Create"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Update"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Delete"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.RolePermission", b =>
@@ -251,9 +334,12 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
-                    b.HasOne("Domain.Entities.Category", null)
+                    b.HasOne("Domain.Entities.Category", "ParentCategory")
                         .WithMany("Subcategories")
-                        .HasForeignKey("ParentID");
+                        .HasForeignKey("ParentID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("ParentCategory");
                 });
 
             modelBuilder.Entity("Domain.Entities.Like", b =>
@@ -266,7 +352,8 @@ namespace Infrastructure.Migrations
 
                     b.HasOne("Domain.Entities.Commen.User", "User")
                         .WithMany("Like")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Review");
 

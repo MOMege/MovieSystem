@@ -32,35 +32,50 @@ namespace Infrastructure.Presistance.Data
             modelBuilder.Entity<Role>().HasKey(x => x.Id);
             modelBuilder.Entity<RoleUser>()
                 .HasKey(x => new {x.RoleID,x.UserID});
+
             modelBuilder.Entity<User>()
                 .HasMany(us=> us.RoleUsers)
                 .WithOne(ro=> ro.User)
                 .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<Role>()
                 .HasMany(ro => ro.RoleUsers)
                 .WithOne(u => u.Role)
                 .OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.Entity<RolePermission>()
                 .HasKey(x => new { x.RoleId, x.PermissionId });
+
             modelBuilder.Entity<Role>()
                 .HasMany(ro => ro.RolePermissions)
                 .WithOne(pe=> pe.Role)
                 .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<Permission>()
                 .HasMany(pe=>pe.RolePermissions)
                 .WithOne(pe=> pe.Permission)
                 .OnDelete(DeleteBehavior.NoAction);
+
            modelBuilder.Entity<Like>()
                 .Property(x=>x.IsLike)
                 .HasConversion(typeof(bool));
 
-            //Introducing FOREIGN KEY constraint 'FK_Like_Users_UserId' on table 'Like' may cause cycles or multiple cascade paths. Specify ON DELETE NO ACTION or ON UPDATE NO ACTION, or modify other FOREIGN KEY constraints.
-            //Could not create constraint or index. See previous errors.
-            //  modelBuilder.Entity<User>()
-            //.HasMany(us => us.Like)
-            //.WithOne(li => li.User)
-            //.OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Category>()
+                .HasMany(x => x.Subcategories)
+                .WithOne(x => x.ParentCategory)
+                .HasForeignKey(x=> x.ParentID)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<User>()
+          .HasMany(us => us.Like)
+          .WithOne(li => li.User)
+          .OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.UserDataSeed();
+            modelBuilder.CategorySeedData();
+            modelBuilder.PermissionSeedData();
+            modelBuilder.RoleDataSeed();
+            
             base.OnModelCreating(modelBuilder);
         }
     }

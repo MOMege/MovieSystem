@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Intial : Migration
+    public partial class IntialvXc : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,20 +17,19 @@ namespace Infrastructure.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    CategoryID = table.Column<int>(type: "int", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ParentID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.CategoryID);
+                    table.PrimaryKey("PK_Categories", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Categories_Categories_ParentID",
                         column: x => x.ParentID,
                         principalTable: "Categories",
-                        principalColumn: "CategoryID");
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -81,7 +82,7 @@ namespace Infrastructure.Migrations
                         name: "FK_Movie_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "CategoryID",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -205,6 +206,54 @@ namespace Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "ID", "CategoryName", "ParentID" },
+                values: new object[,]
+                {
+                    { 1, "Drama", null },
+                    { 2, "Action", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Permissions",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "perm1" },
+                    { 2, "perm2" },
+                    { 3, "perm3" },
+                    { 4, "perm4" },
+                    { 5, "perm5" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "Name", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "Create", null },
+                    { 2, "Update", null },
+                    { 3, "Delete", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Age", "Email", "IsAdmin", "Name", "Password" },
+                values: new object[] { 3, 0, "aa@gmail.com", false, "ahmed", "112233" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "ID", "CategoryName", "ParentID" },
+                values: new object[,]
+                {
+                    { 3, "fighting", 2 },
+                    { 4, "Family", 1 },
+                    { 7, "History", 1 },
+                    { 5, "Kids", 4 },
+                    { 6, "Cartoon", 4 }
                 });
 
             migrationBuilder.CreateIndex(
