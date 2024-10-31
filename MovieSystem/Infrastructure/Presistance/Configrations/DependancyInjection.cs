@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Application.Repository;
+using Infrastructure.Presistance.Data;
+using Infrastructure.Presistance.Repository;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph;
 using Microsoft.Graph.Models;
@@ -14,12 +18,9 @@ namespace Infrastructure.Presistance.Configrations
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            //
-            //
-            //
-            //
-            //
-            //
+           services.AddDbContext<DbcontextApplication>(options =>
+   options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            
             return services;
         }
 

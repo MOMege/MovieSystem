@@ -16,7 +16,7 @@ namespace Domain.Entities
         public int? ParentID { get; set; }
         [ForeignKey("ParentID")]
         public virtual ICollection<Category>? Subcategories { get; set; }
-        public virtual Category ParentCategory { get; set; }
+        public virtual Category? ParentCategory { get; set; }
         public ICollection<Movie>? Movies { get; set; }
         
 

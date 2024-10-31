@@ -28,8 +28,8 @@ namespace Infrastructure.Presistance.Data
         DbSet<RoleUser> RoleUsers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasKey(x => x.Id);
-            modelBuilder.Entity<Role>().HasKey(x => x.Id);
+            //modelBuilder.Entity<User>().HasKey(x => x.Id);
+            //modelBuilder.Entity<Role>().HasKey(x => x.Id);
             modelBuilder.Entity<RoleUser>()
                 .HasKey(x => new {x.RoleID,x.UserID});
 
