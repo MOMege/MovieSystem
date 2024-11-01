@@ -13,6 +13,8 @@ namespace Application.AutoMapper
     {
         public UserProfile() { 
             CreateMap<User,UserByIdDto>().ReverseMap();
+            CreateMap<User,UserDto>().ReverseMap();
+            CreateMap<User,UserUpdateDto>().ReverseMap();
         
         }    
     }

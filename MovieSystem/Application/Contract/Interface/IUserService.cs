@@ -13,8 +13,8 @@ namespace Application.Contract.Interface
     {
         Task<IEnumerable<UserDto>> GetALlUser();
         Task<UserByIdDto> GetUserById(int id);
-        Task<User> CreateUser(User User);
-        Task<User> UpdateUser(int id, User user);
+        Task CreateUser(UserDto User);
+        Task<User> UpdateUser(int id, UserUpdateDto user);
         Task DeleteUser(int id);
     }
 }

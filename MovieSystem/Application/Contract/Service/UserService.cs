@@ -20,28 +20,9 @@ namespace Application.Contract.Service
         {  _userRepository = userRepository;
            _mapper = mapper;
         }
-
-        public  async Task<UserByIdDto> GetUserById(int id)
+        public async Task<IEnumerable<UserDto>> GetALlUser()
         {
-
-            var user = await _userRepository.GetByIdAsync(id);
-            var map = _mapper.Map<UserByIdDto>(user);
-            return map;
-        }
-
-        public Task<User> CreateUser(User User)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteUser(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public  async Task<IEnumerable<UserDto>> GetALlUser()
-        {
-           var users =  _userRepository.GetAllAsync().Result;
+            var users = _userRepository.GetAllAsync().Result;
             return users.Select(p => new UserDto
             {
                 Name = p.Name,
@@ -51,10 +32,27 @@ namespace Application.Contract.Service
             }).ToList();
         }
 
-      
-        public Task<User> UpdateUser(int id, User user)
+        public  async Task<UserByIdDto> GetUserById(int id)
         {
-            throw new NotImplementedException();
+
+            var user = await _userRepository.GetByIdAsync(id);
+            var map = _mapper.Map<UserByIdDto>(user);
+            return map;
+        }
+
+        public Task CreateUser(UserDto User)
+        {
+            var model= _mapper.Map<User>(User);
+            return _userRepository.AddAsync(model);
+        }
+        public Task<User> UpdateUser(int id, UserUpdateDto user)
+        {
+            var model=_mapper.Map<User>(user);
+            return _userRepository.UpdateAsync(model);
+        }
+        public Task DeleteUser(int id)
+        {
+            return _userRepository.DeleteAsync(id);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.DTO;
+using Domain.Entities;
 using Domain.Entities.Commen;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,10 @@ namespace Application.Contract.Interface
 {
     public interface IMovieService
     {
-        Task<Movie> GetMovieById(int id);
+        Task<MovieByIdDto> GetMovieById(int id);
+        Task<IEnumerable<MovieDto>> GetALlMovie();
+        Task CreateMovie(MovieDto movie);
+        Task<Movie> UpdateMovie(int id, MovieUpdateDto movie);
+        Task DeleteMovie(int id);
     }
 }
