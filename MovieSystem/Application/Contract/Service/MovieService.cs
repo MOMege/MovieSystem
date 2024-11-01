@@ -52,9 +52,9 @@ namespace Application.Contract.Service
 
             return _movieRepository.UpdateAsync(movie);
         }
-        public   Task CreateMovie(MovieDto movie)
+        public   Task CreateMovie(MovieDto moviedto)
         {
-            var model= _mapper.Map<Movie>(movie);
+            var model= _mapper.Map<Movie>(moviedto);
             
             return  _movieRepository.AddAsync(model)  ;
         }
